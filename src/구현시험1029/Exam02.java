@@ -1,10 +1,10 @@
-package ±¸Çö½ÃÇè1029;
+package êµ¬í˜„ì‹œí—˜1029;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 /*
- * Person classÀ¸ toStringÀ» ÀçÁ¤ÀÇÇØ¾ßÇÑ´Ù.
+ * Person classï¿½ï¿½ toStringï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
  */
 
 
@@ -47,7 +47,7 @@ public class Exam02 {
 	}
 
 	public static void main(String[] args) {
-		Person[] a = new Person[] { new Person("È«±æµ¿", 18), new Person("ÀÓ²©Á¤", 21) };
+		Person[] a = new Person[] { new Person("È«ï¿½æµ¿", 18), new Person("ï¿½Ó²ï¿½ï¿½ï¿½", 21) };
 
 		System.out.println(toString(a));
 	}
