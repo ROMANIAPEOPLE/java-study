@@ -7,7 +7,7 @@ public class Exam05 {
 
 	
 	static void removeEvenNumbers(Collection<Integer> c) {
-		//��� 1 : ���ο� ArrayList�� �����Ͽ�, ¦���� ���� �� �� ����Ʈ�� ����
+		//占쏙옙占� 1 : 占쏙옙占싸울옙 ArrayList占쏙옙 占쏙옙占쏙옙占싹울옙, 짝占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙 占쏙옙 占쏙옙占쏙옙트占쏙옙 占쏙옙占쏙옙
 		Collection<Integer> e = new ArrayList<Integer>();
 		for(int i=0; i<c.size(); i++) {
 			if(i % 2 ==0) {
@@ -18,7 +18,7 @@ public class Exam05 {
 		c.removeAll(e);
 	}
 	
-	//��� 2 : ���ͷ����� 
+	//占쏙옙占� 2 : 占쏙옙占싶뤄옙占쏙옙占쏙옙 
 //	Iterator<Integer> v = c.iterator();
 //	while(v.hasNext()) {
 //		Integer list = v.next();

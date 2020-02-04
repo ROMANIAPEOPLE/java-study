@@ -16,7 +16,7 @@ class Person {
 }
 
 
-class PersonComparator implements Comparator<Person>{
+abstract class PersonComparator implements Comparator<Person>{
     public static final int ORDERBY_NAME = 0;
     public static final int ORDERBY_AGE = 1;
     public static final int ASC = 1;

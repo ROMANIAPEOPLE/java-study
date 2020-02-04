@@ -19,7 +19,7 @@ public class Example7 {
 		
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) {
 		Random random = new Random();
 		List<Integer> a = new ArrayList<>();
 		for (int i = 0; i < 30; ++i)
