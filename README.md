@@ -760,7 +760,7 @@ khDTO [name = Jeong, age = 0, address = incheon , bloodType = A ]
 
 [우아한 형제들 기술블로그](https://woowabros.github.io/experience/2017/10/17/java-serialize.html)
 
-[자바의 신 VOL.2 . 27장 : Serializable과 NIO도 살펴 봅시다.](
+[자바의 신 VOL.2 . 27장 : Serializable과 NIO도 살펴 봅시다.](http://www.yes24.com/Product/Goods/8746364)
   </div>
 </details>
 
