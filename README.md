@@ -767,7 +767,8 @@ khDTO [name = Jeong, age = 0, address = incheon , bloodType = A ]
 <details>
   <summary> Web Server VS  WAS </summary>
   <div markdown="1">
-    ### Web Server
+   
+   ### Web Server
 
 웹 서버는 크게 소프트웨어와 하드웨어로 구분된다.
 
@@ -849,6 +850,226 @@ DB조회나 다양한 로직 처리를 요구하는 **동적인 컨텐츠** 를 
     즉, 자원 이용의 효율성, 장애 극복,배포 및 유지보수성 편의를 위해 WebServer와 Was를분리한다.
   </div>
 </details>
+<details>
+  <summary>Immutable object</summary>
+  <div markdown="1">
+   
+   기초를 다시 한번 다듬고 가자는 의미에서 자바 기본서인 '자바의 신'을 읽다가 아래와 같은 예제 코드를 접하게 되었다.  글을 시작하기 전에 아래 코드를 보고 결과를 추측해보자.
+
+```java
+public class ImmutableExam  { 
+public static void main(String[] args) {
+
+        List<Integer> first = new ArrayList<>();
+        first.add(0);
+        first.add(1);
+        first.add(2);
+
+        List<Integer> second  = first;
+
+        first.add(3);
+
+        System.out.println(second.toString());
+    }
+}
+```
+
+이 글을 읽고계시는 분들 중에서도 며칠전의 나처럼 결과 값을```[0,1,2]``` 라고 라고 추측하신 분들이 분명히 있을것이다.
+
+ 하지만 이 코드의 실행 결과는```[0,1,2,3]``` 이다.😮
+
+위 작성한 예제 코드는 '얕은 복사'로, 참조의 의한 복사가 이루어졌기 때문에 동일한 주소값을 가지는 ```first``` 와 ```second``` 모두 값이 변경되는 것이다.
+
+```[0,1,2]```를 출력하기 위해서는 아래와 같이 코드를 작성하면 된다. 
+
+```java
+  public static void main(String[] args) {
+
+        List<Integer> first = new ArrayList<>();
+        first.add(0);
+        first.add(1);
+        first.add(2);
+        List<Integer> second = new ArrayList<>();
+        for (Integer i : first) {
+            second.add(i);
+        }
+        first.add(3);
+        System.out.println(second.toString());
+    }
+```
+
+------
+
+사실 위의 내용은  5분정도만 투자해도 바로 이해할 수 있는 내용이다. 이 글을 포스팅하는 이유는 위 내용을 공부하면서 알게된 자바의 '불변 객체'에 대해서 기록해두기 위함이다.
+
+
+
+### Immutable Object의 정의
+
+자바와 같은 객체 지향 프로그래밍에 있어서 불변객체(Immutable Object)는 생성 후 그 상태를 바꿀 수 없는 객체를 말한다. (위키디피아 불변 객체 정의)
+
+- **불변 객체를 만드는 기본적인 메커니즘은 필드에 ```final``` 키워드를 선언하고, ```Setter```메소드를 구현하지 않는 것이다.**
+
+그렇다면,  단순히 **"변수에 ```final``` 키워드만 붙이면 불변객체가 될 수 있을까? "** 아래 예제 코드를 보면서 이 질문에 대한 답을 생각해보자.
+
+```java
+//KI 라는 사람의 정보를 저장하는 객체
+public class KIInformation {
+    private int age;
+    private String hobby;
+
+    public KIInformation(int age, String hobby) {
+        this.age =age;
+        this.hobby =hobby;
+    }
+
+    public void setAge(int age){
+        this.age = age;
+    }
+    public void setName(String hobby) {
+        this.hobby=obby;
+    }
+}
+```
+
+```java
+public class Person {
+    private final KIInformation kiInformation;
+
+    public Person(KIInformation information) {
+        this.kiInformation = information;
+    }
+}
+```
+
+위의 ```Person```은 **불변 객체** 일까? 
+
+정답은 'No' 다. ```KIInformation``` 라는 참조 변수가 ```final```로 선언되었고, ```setter```메소드 역시 존재하지 않는데도 불변객체가 아닌 이유는 ```Person```객체가 포함하고 있는 참조 변수 ```KIInformation``` 객체가 불변 객체가 아니기 때문이다. 
+
+ 단순히 ```final```키워드 선언과 ```setter``` 메소드를 작성하지 않는것으로 불변 객체를 만들수 있는 경우는 객체의 필드가 모두 **원시 타입(primitive type**) 일 경우에만 성립하는 조건이다. 
+
+즉, 참조 타입을 포함하는 객체를 불변으로 만들기 위해서는 참조 타입의 객체 또한 ```final``` 처리와 ```setter```메소드를 작성하지 말아야 한다.
+
+ ```Person``` 객체가 불변 객체가 아닐 경우 발생할 수 있는 문제점과 불편함에 대하여 알아보자.
+
+#### 1. 의도치 않은 사이드 이펙트(side effect) 발생
+
+```java
+ public static void main(String[] args) {
+        KIInformation information = new KIInformation(26,"programming");
+        Person person1 = new Person(information);
+
+        information.setAge(27);
+        information.setHobby("soccer");
+
+        Person newPerson = new Person(information);
+
+    }
+```
+
+맨 처음에 보았던 예제와 비슷한 내용이다.
+
+```KIInformation``` 객체에 26 이라는 나이와 "programming" 이라는 취미를 부여하고,  ```person1```객체의 인자로 전달했다.
+
+이 후 1년이라는 시간이 지나서 나이도 1살 먹었고, 취미도 바뀌었다. 따라서 변경된 정보로 ```newPerson``` 을 새로 만들기 위해 이전에 사용했던 ```KIInformation``` 객체를 재사용 하려고 한다. 
+
+```setter```메소드를 이용해 27이라는 나이와  "soccer" 라는 변경된 취미로 데이터를 변경하고 ```newPerson```객체의 인자로 전달했다.
+
+앞에서 이미 공부를 했기때문에  ```person1```객체의 값도 아래 결과처럼 우리의 의도와 다르게 데이터가 변경되었을거라고 예상할 수 있다.**즉, 불변 객체로 설계하지 않았기 때문에 사이드 이펙트가 발생한 것이다. **
+
+```
+person1 : [age=27, hobby='soccer']
+newPerson : [age=27, hobby='soccer']
+```
+
+
+
+
+
+#### 2. 불필요한 방어적 복사(defensive copy) 구현
+
+객체를 불변으로 구현하지 않았기 때문에 ```KIInformation``` 객체처럼 다른 객체에서 재사용 될 가능성이 있는 객체가 변경되는 것을 대비하여 ,객체 내부적으로 새로운 객체를 만들어 위와 같은 문제를 방지하는 코드를 의미한다.
+
+```java
+ public KIInformation addAgeAndChangeHobby(int plusAge, String hobby) {
+        return new KIInformation(age+plusAge,hobby);
+    }
+```
+
+이렇게 위의 코드처럼 객체 내부에서 새로운 객체를 만들어 1번과 같은 사이드 이펙트 문제를 해결하는 것이 가능하다.
+
+```java
+public static void main(String[] args) {
+        KIInformation information = new KIInformation(26,"programming");
+        Person person1 = new Person(information);
+
+        Person person2 = new Person(information.addAgeAndChangeHobby(1,"soccer"));
+    }
+```
+
+```
+person1 : [age=26, hobby='programming']
+newPerson : [age=27, hobby='soccer']
+```
+
+
+
+*하지만,* 호출자가 컴포넌트 내부를 수정하지 않으리라 *확신한다면즉,* 애초에 불변 객체로 설계한다면 이러한 방어적 복사를 *생략할 수가* 있다. 또한 방어적 복사에는 *성능 저하가* 따르고 항상 사용할 수 있지도 않다.(같은 패키지에 속하는 등의 이유로)
+
+
+
+#### 예제를 불변으로 고쳐보자.
+
+위에서 공부한 내용을 바탕으로 이 예젱서 사용했던 예시 클래스를 불변으로 바꾸는것은 그리 어렵지 않을것이다.
+
+```java
+public class KIInformation {
+    private final int age;
+    private final String hobby;
+
+    public KIInformation(int age, String hobby) {
+        this.age =age;
+        this.hobby =hobby;
+    }
+}
+```
+
+이렇게, 참조하는 객체까지 불변으로 설계해주자.
+
+
+
+#### 결론1 : 클래스를 불변으로 만들기 위한 규칙
+
+1. 객체의 상태를 변경하는 메서드(setter)를 제공하지 않는다.
+2. 클래스를 확장(상속)할 수 없도록 한다.
+3. 모든 필드를 final로 선언한다.
+4. 모든 필드를 private로  선언한다.
+
+
+
+#### 결론2: 불변객체를 사용함으로써 얻는 이점
+
+1. 외부에서 임의로 내부의 값을 제어할 수 없다. 따라서 객체의 자율성이 보장되며, 프로그램 내에서 변하지 않는 고정된 부분이 많아짐으로써 프로그램의 안정도를 높일 수 있다.
+2. 추가적인 방어적 복사본을 만들 필요가 없다.
+3. 사이프 이팩트가 발생할 확률을 줄일 수 있다.
+4. 스레드에 안전하기 때문에, 스레드가 동시에 사용해도 절대 훼손되지 않는다.
+
+
+
+------
+
+사실 자바 기본서에 있는 내용은 어느 정도 숙지하고 있었다고 생각했는데, 한편으로는 부끄러우면서도 아직 공부가 많이 부족하다는 생각에 더 열심히 하자는 동기부여가 되었다.
+
+이전에 학교에서 동기들과 함께 만든 프로젝트는 그저 기능 동작에만 초점을 두고 구현했었는데 여러가지 성능적 문제를 해결하는 방법에 대해 하나씩 배우는 기분이 들어 뿌듯한 시간이었다.
+
+#### **reference**
+
+------
+
+[이펙티브 자바 : 17장. 변경 가능성을 최소화하라.](http://www.yes24.com/Product/Goods/65551284)
+  </div>
+</details>
+
 
 
 
