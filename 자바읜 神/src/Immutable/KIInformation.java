@@ -1,8 +1,8 @@
 package Immutable;
 
 public class KIInformation {
-    private int age;
-    private String hobby;
+    private final int age;
+    private final String hobby;
 
     public KIInformation(int age, String hobby) {
         this.age =age;
@@ -15,10 +15,6 @@ public class KIInformation {
 
     public String getHobby() {
         return hobby;
-    }
-
-    public KIInformation addAgeAndChangeHobby(int plusAge, String hobby) {
-        return new KIInformation(age+plusAge,hobby);
     }
 
 

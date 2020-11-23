@@ -13,10 +13,8 @@ public class Person {
         KIInformation information = new KIInformation(26,"programming");
         Person person1 = new Person(information);
 
-        Person person2 = new Person(information.addAgeAndChangeHobby(1,"soccer"));
 
         System.out.println(person1.kiInformation.toString());
-        System.out.println(person2.kiInformation.toString());
 
     }
 }
