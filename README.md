@@ -1,4 +1,664 @@
 # Java-study  
+
+<details>
+  <summary>자바의신vol1</summary>
+  <div markdown="1">
+  
+  # 자바의 신 vol1 핵심 키워드 정리
+
+- 자바의 가장 작은 단위는 클래스
+
+  - 메소드는 어딘가 소속이 되어있어야만 한다. 즉, 클래스(class)에 포함되어있어야 한다.
+  - 클래스는 [상태]와 [행동]이 있어야만 한다.
+    - 여기서 [상태]는 변수, [행동]은 메소드에 해당한다.
+
+- 기본 생성자는  클래스를 컴파일할 때 javac를 실행하면 클래스 파일 안에 자동으로 만들어 진다.
+
+- 클래스를 통해서 객체를 생성할 수 있다. 하나의 클래스를 만들면 그 클래스의 모습을 갖는 객체들을 여러개 생성할 수 있다. 일반적으로 클래스의 메소드나 변수들을 사용하려면 객체를 생성해야한다.
+
+- #### 변수
+
+  - 지역변수 : 중괄호 내에서 선언된 변수(메소드 안에 선언된 변수)
+
+  - 매개변수 : 메소드에 넘겨주는 변수
+
+  - 인스턴스 변수 :  클래스 안에, 메소드 밖에 선언된 변수(static이라는 키워드가 없어야 한다.)
+
+  - 클래스 변수(전역변수) : 인스턴수 변수처럼 메소드 밖에, 클래스 안에 선언되지만 앞에 static이라는 약어가 붙는다.
+
+  - 변수는 **참조형**과 **자료형** 으로 나뉜다.
+
+    - new 로 초기화 하여 사용해야하는 것은 '참조자료형'
+
+    - 그렇지않고 바로 사용 가능한 것이 '기본자료형' 이다.
+
+    - 단, 예외로 String은 '참조자료형'인데 그냥 바로 사용 가능하다.
+
+    - ```java
+      String str = new String("hello");
+      String str = "hello";
+      ```
+
+      두개다 동일한 코드이다.
+
+  - 기본 자료형은 8개다.
+
+    - byte,int,long,short,char
+    - float,double
+    - boolean
+
+  - 자바에서는 기본적으로 숫자는 무조건 int로 생각하기 때문에 long타입의 숫자를 명시적으로 지정해 줄 때에는 반드시 숫자 가장 뒤에 L을 붙여주어야만 한다.
+
+  - short 타입을 long으로 변환할 때에는 캐스팅을 할 필요가 없다
+
+  - long 타입을 short타입으로 변환할 때에는 큰 타입에서 작은 타입으로 변하는 것임으로 캐스팅이 필요하다.
+
+  - 범위가 큰 타입으로 /작은 타입으로 변환할 경우 값이 달라질 확률이 매우 높다.
+
+- #### for/if
+
+  - switch문은 enum type와 long을 제외한 정수형, String(java7 이후) 가 사용 가능하다.
+
+- #### 참조자료형
+
+  - static 메소드에는 static변수(클래스변수,전역변수)만 사용할 수 있다.
+
+- #### 접근제어자
+
+  - public : 누구나 접근 가능
+  - protected : 같은 패키지 내에 있거나 상속받은 경우에만 접근 가능
+  - pakage-private : 같은 패키지 내에 있을 때만 접근 가능(default)
+  - private : 같은 클래스에서만 접근 가능
+
+- #### 상속
+
+  - 부모 클래스에서는 기본 생성자를 만들어 놓는 것 이외에는 상속을 위해서 아무런 작업을 할 필요 없다.
+  - 자식 클래스의 생성자가 호출되면, 자동으로 부매 클래스의 매개 변수 없는 생성자가 실행
+  - 자식 클래스에서는 부모 클래스에 있는 public, protected로 선언된 모든 인스턴스 및 클래스 변수와 메소드를 사용할 수 있다.
+  - 접근제어자가 자식에서 확대되는것은 상관 없지만 축소되면 오류가 발생한다.
+  - 
+
+- #### 다형성
+
+  - 형변환을 하더라도 실제 호출되는 것은 원래 객체이 있는 메소드가 호출된다.
+  - 부모 클래스에 선언된 변수와 동일한 이름을 가지는 변수를 선언할 수도 있다
+    - 하지만, 이렇게 엎어 쓰는 것은 권장하지 않는다.
+  - 부모클래스에 선언되어 있지 않는 이름의 변수를 선언할 수 없다.
+
+
+
+#### Object class
+
+모든 클래스의 부모는 object로, java.lang 패키지에 선언되어 있다.	
+
+- 자바에서는 아무런 상속도 받지 않으면 java.lang.Object 클래스를 확장한다.
+- 예를들어, main 메소드 외에는 아무것도 선언되어 있지 않은 클래스에서 객체를 생성 후 toString 메소드를 호출해보면 정상적으로 호출되는것을 확인할 수 있다.
+- Object 클래스에 있는 메소드들을 통해서 클래스의 기본적인 행동을 정의할 수 있다.
+- 예를들어, 사람은 두말로 걷고 , 말을 하고 , 생각을 한다.(일반적인 경우) 클래스도 마찬가지로 "이정도의 메소드는 정의되어 있어야 하고 , 처리해 주어야 한다"는 것ㅇㄹ 정의하는 작업이 필요하기 때문에 Object 클래스를 상속받았다고 한다.
+
+#### Object 클래스에서 제공하는 메소드들의 종류
+
+오브젝트 클래스에 선언되어있는 메소드는 객체를 처리하기 위한 메소드와 쓰레드를 위한 메소드로 나뉜다. 참고로 쓰레드를 위한 메소드는 어떤 것들이 있는지만 확인해보고 추후에 학습하기로 한다.
+
+
+
+| 메소드                            | 설명                                                         |
+| --------------------------------- | ------------------------------------------------------------ |
+| proteced Object clone()           | 객체의 복사본을 만들어 리턴한다.                             |
+| public boolean equals(Object obj) | 현재 객체와 매개 변수로 넘겨받은 객체가 같은지 확인한다. 같으면 true, 다르면 false를 리턴한다. |
+| protected void finalize()         | 현재 객체가 더 이상 쓸모가 없어졌을 때 가비지 컬렉터에 의해 이 메소드를 호출한다. 이 메소드는 따로 호출할 일이 없으므로, 신경쓰지 말고 그냥 있다는 것 정도만 알아두자. |
+| public Class<?> getClass()        | 현재 객체의 Class 클래스의 객체를 리턴한다.                  |
+| public int hashCode()             | 객체에 대한 해시 코드(hashCode)값을 리턴한다. 해시 코드라는 것은 "16진수로 제공되는 객체의 메모리 주소"를 말한다. |
+| public String toString()          | 객체를 문자열로 표현하는 값을 리턴한다.                      |
+
+```
+*참고*
+자바로 개발할 때에는 "넌 필요 없는 객체니까 죽어!" 라고 개발자가 직접 지정해 줄 수 없다. 이럴 때 필요한 것이 바로 가비지 컬렉터이며, 자바의 메모리에 있는 쓰레기를 청소하는 로봇이라고 생각하면 된다. 여러분들이 객체를 만들고, 그 객체가 어디에서 쓰인 후에 필요가 없어졌을 때, 이 로봇이 자바 프로세스 내에 있는 객체들을 뒤져 보면서 어떤 객체를 죽일지, 살릴지를 확인해서 처리해준다.
+```
+
+
+
+#### Object클래스에서 가장 많이 쓰이는 toString() 메소드
+
+```java
+public class ToString {
+    public static void main(String [] args){
+        ToString thisObject = new ToString();
+        thisObject.toStringMethod(thisObject);
+    } 
+    
+    public void toStringMethod(Object obj){
+        System.out.println(obj);
+        System.out.println(obj.toString());
+        System.out.println("plus " + obj);
+    }
+}
+```
+
+위 코드에서 toStringMethod 메소드의 출력결과는 모두 동일한 주소값을 출력한다. 
+
+```java
+c.inheritance.ToString@1540e19d
+c.inheritance.ToString@1540e19d
+plus c.inheritance.ToString@1540e19d
+```
+
+마지막 3번째 plus와 함께 출력된 주소값을 보면 알 수 있듯이, [String]을 제외한 참조 자료형에 더하기 연산을 수행하면 , 자동으로 toString() 메소드가 호출되어 객체의 위치에는 String 값이 놓이게 된다.
+
+
+
+
+
+### interface, abstract , enum
+
+- interface 자체를 객체생성해서 사용하면 에러가 발생한다
+
+  - cannot be istantiated 라는 오류가 발생하는데, 쉽게 말해서 '왜 아무것도 구현해 놓지 않았는데, 얘로 초기화 하려는 것이냐?' 라는 뜻이다.
+
+  - 그렇다면, 이 인터페이스로 객체생성을 하기 위해서는 클래스 형변환에 대해 생각해보면 된다.
+
+  - ```java
+    public interface MemberManager {
+        public boolean addMember(MemberDto member);
+        public boolean removeMember(String name, String phone);
+        public boolean updateMember(MemberDto member);
+    }
+    ```
+
+  - ```java
+    MemberManager membermanager = new MemberManager(); // 에러 발생
+    ```
+
+  - ```java
+    public class MemberManagerImpl implemensts MemberManager {
+        @Override
+        public boolean add Member(MemberDto member);
+        . . .  생략
+    }
+    ```
+
+  - ```java
+    MemberManager member = new MemberManagerImpl();
+    ```
+
+    - 겉보기에는 member의 타입은 MemberManager이다. 그리고 MemberManagerImpl 클래스에는 인터페이스에 선언되어 있는 모든 메소드들이 구현되어 있다. 따라서 실제 member타입은 MemberManager가 되기 때문에, member에 선언된 메소드들을 사용하면 MemberManagerImpl에 있는 메소드들이 실행된다.
+
+  - 인터페이스를 사용하는 이유는 다음과 같다.
+
+    1. 완벽한 추상화를 달성하기 위해서
+    2. 다중 상속의 기능을 사용하기 위해서
+    3. 약한 결합을 위해서
+    4. 다형성을 사용하기 위해서
+
+- #### 일부 완성되어있는 abstract 클래스
+
+  - 인터페이스도 아니다. 그렇다고 클래스라고도 하기 힘든 abstract 클래스에 대해서 알아보자.
+  - abstract은 말그대로 '추상적인' 의미이다. 대부분의 일반인은 추상화를 보면 사실적인 그림보다는 그 그림이 나타내는 의미를 알기 어렵다.
+  - 마찬가지로, abstract 클래스는 자바에서 마음대로 초기화하고 실행할 수 없도록 되어있다.
+  - 따라서 그 abstract 클래스로 구현해 놓은 클래스로 초기화 및 실행이 가능하다.
+
+- ##### abstract의 조건
+
+  - 추상 클래스 선언시 abstract이라는 예약어가 클래스 앞에 추가되면 된다.
+
+  - abstarct 클래스 안에는 abstarct으로 선언된 메소드가 0개 이상 있으면 된다.(없어도 된다)
+
+  - 단, abstarct 메소드가 하나라도 있으면 그 클래스는 반드시 abstarct으로 선언되어야 한다.
+
+  - abstract 클래스는 몸통이 있는 메소드가 0개 이상 있어도 전혀 상관 없으며, **static** 이나 **final** 메소드가 있어도 상관 없다.
+
+  - 인터페이스는 모든 멤버변수가 static final인데 생략해도 자동으로 static final임.
+
+  - abstract 클래스는 interface가 아니기떄문에 implements를 통해 구현할 수 없다.
+
+  - 대신 상속과 동일한 개념으로 생각해서, extends를 통해 구현하면 된다.
+
+  - abstract으로 선언되어 있는 메소드들은 반드시 구현해야 한다. 구현하지 않으면 에러가 발생한다.
+
+  - abstract 만으로는 객체생성 할수없음!!
+
+  - abstaract을 사용하는 이유는 **어떠한 메소드를 미리 만들어 놓고 싶은데, 그렇다고 클래스를 만들기는 좀 애매할때, 아주 공통적인 기능을 미리 구현해 놓을때 사용한다**
+
+  - 아래 표를 통해 interface와 abstract, 그리고 class를 비교 정리해보자.
+
+    - |                                    | 인터페이스 | abstract 클래스 | 클래스     |
+      | ---------------------------------- | ---------- | --------------- | ---------- |
+      | 선언 시 사용하는 예약어            | interface  | abstract        | class      |
+      | 구현 안 된 메소드 포함 가능 여부   | 가능(필수) | 가능            | 불가       |
+      | 구현된 메소드 포함 가능 여부       | 불가       | 가능            | 가능(필수) |
+      | static/final 메소드 선언 가능 여부 | 불가       | 가능            | 가능       |
+
+  - interface와 마찬가지로, abstract 클래스를 객체화 할 때 abstract 메소드가 존재한다면 abstract 메소드를 오버라이드 해야 객체화 할 수 있다.
+
+- #### final
+
+  - final은 변수 , 클래스, 메소드 모두 사용할 수 있는 키워드이다.
+
+  - class에 final을 사용한다는 의미는, 상속을 거절하겠다는 의미이다.
+
+  - 메소드에 final을 선언하는 경우도 class에 final을 선언하는 이유와 비슷하다. overriding을 할 수 없게 한다는 뜻이다.
+
+  - 단, 변수에서 final을 사용하는것은 위 두개의 상황과 조금 다르다.
+
+    - 인스턴스 변수나, 전역 변수(클래스변수) 에서는 final로 변수를 선언시 반드시 초기화를 함께 진행해줘야 한다.
+
+    - final의 기본 의도 자체가, "더 이상 수정하지 마" 와 동일한 의미인데, 만약 전역변수나 인스턴스변수에서 초기화를 해주지 않았다면, 메소드에서 초기화를 진행해야 하기 때문이다.
+
+    - 그렇다면, 지역변수(메소드 안)는 바로 초기화 하지 않아도 될까? 
+
+      - ```java
+        public lass FinalVariable{
+            //생략
+            public void method(final int parameter) {
+                final int localVariable;
+                localVariable = 2;
+                localVariable = 3;
+                parameter = 4;
+            }
+        }
+        ```
+
+    - 위 코드에서 localVariable = 2 로 선언할 때에는 아무런 문제가 없다. 하지만 그 다음줄인 3으로 다시 선언하는 부분에서 컴파일 에러가 발생한다. 마찬가지로 parameter도 이미 매개변수로 넘어오기 전에 final로 선언되어 있기 때문에, 다시 값을 할당하면 안된다.
+
+    - 결국 final은 날짜,원주율과 같은 불변의 변수로만 사용해야 한다.
+
+  - #### 객체에 선언하는 final은 ?
+
+    - ```java
+      public class FinalReferenceType {
+          final MemberDto dto = new MemberDto();
+          
+          public static void main(String [] args){
+              FinalReferenceType referenceType = new FinalReferenceType();
+              referenceType.checkDto();
+          }
+          
+          public void checkDTO() {
+              System.out.println(dto);
+              dto = new MemberDto();
+          }
+          
+      }
+      ```
+
+    - 위 코드는 에러가 발생한다. 어디서 에러가 발생할지 유추해보자.
+
+    - 바로 dto = new MemberDto();이다. 에러가 발생하는 정확한 이유를 알지 못해도, 여태껏 학습한 final의 의미를 생각해보면 대충 감이 올 것이다.
+
+    - 즉, 기본자료형과 마찬가지로 참조 자료형도 두 번 이상 값을 할당하거나 새로 생성자를 이용하여 초기화 할 수 없다. 
+
+    - 다음으로는 참조자료형(객체)의 필드값을 수정하도록 checkDTO() 메소드를 수정해보자.
+
+      ```java
+          public void checkDTO() {
+           //   dto = new MemberDto();
+              dto.name = "HAHAHAHA";
+          }
+      ```
+
+    - 이 경우에는 어떨까? 오류가 발생할까?
+
+    - 정답은 정상적으로 컴파일이 된다. 게다가 name에 할당한 값도 정상적으로 할당된다.
+
+    - dto 객체, 즉 MemberDTO 클래스의 객체는 FinalReferenceType에서 두 번 이상 생설할 수 없다. 하지만 그 객체의 안에 있는 객체들은 final로 선언된 것이 아니기 때문에 그러한 제약이 없는것이다.
+
+    - 즉, 해당 클래스가 final 이라고 해서 그 안에있는 인스턴스 변수나 전역 변수가 final은 아니라는 것을 기억하자.
+
+  - #### enum 클래스
+
+    - enum 클래스의 생성자는 default(pakage-private)  와 private 만 접근 가능하다. 다시 말해서, 각 상수를 enum 클래스 내에서 선언할 때만 이 생성자를 사용할 수 있다.
+    - enum class의 부모도 Object class이다. 하지만, Enum class의 개발자들이 Object 클래스 중 4개의 메소드를 Overriding 하지 못하도록 막아놨다.
+
+
+
+
+
+- ### 예외 처리
+
+  - ```java
+    public void arrayOutOfBoundsTryCatch() {
+        int [] intArray = new int[5];
+        try {
+            System.out.println(intArray[5]);
+            System.out.println("This code should run");
+        }catch(Exception e) {
+            System.err.println("Exception occured.");
+        }
+    }
+    ```
+
+  - 위의 코드의 실행 결과, 컴파일은 정상적으로 이루어진다.
+
+  - 단, 일반적으로 생각해보면 "This code should run 이 실행 될 것이라고 생각했을 것이다."
+
+  - 하지만 이미 inArray[5]의 값도 출력되지 않았고, 자바의 try-catch의 try 블록 안에서 예외가 발생되면 그 이하의 문장은 실행되지 않고 바로 catch 블록으로 넘어간다.
+
+  - 다음으로 catch문을 살펴보아야 한다. 여기서 System.out이 아닌 System.err을 사용했다.
+
+  - 콘솔 화면에서는 별로 구분이 안되지만, 개발 도구인 IDE에서는 출력 결과가 다른 색으로 표시된다. 오류가 발생하는 부분에는 이와 같이 System.err를 사용하는 것을 생활하 하는 것이 좋다.
+
+  - try-catch 구문 밖에 있는 문장은 "무슨 일 있었어?" 하면서 실행된다.
+
+    1. try-catch 에서 예외가 발생하지 않을 경우
+       - try 내에 있는 모든 문장이 실행되고, try-catch 문장 이후의 내용이 실행된다.
+    2. try-catch 에서 예외가 발생하는 경우
+       - try 내에서 예외가 발생한 이후의 문장들은 실행되지 않는다.
+       - catch 내에 있는 문장은 반드시 실행되고, try-catch 문장 이후의 내용이 실행된다.
+
+- ### try-catch 사용시 주의점
+
+  - try 블록은 말 그대로 중괄호로 쌓여있는 블록이다.
+
+  - 그래서 try 블록 내에서 선언한 변수를 catch에서 사용할 수 없다.
+
+  - ```java
+    public void checkVariable2() {
+        try {
+            int [] intArray = new int[5];
+            System.out.println(intArray[5]);
+        } catch (Exception e){
+            System.out.println(intArray.length);
+        }
+        System.out.println("This code must run.");
+    }
+    ```
+
+  - 컴파일이 제대로 되지 않는다. 그 이유는 무엇일까?
+
+    - intArray라는 배열은 try 블록 안에서 생성된 것이다.
+    - 따라서 catch는 intArray가 누군지 모른다.
+
+  - 그래서, 이런 문제를 해결하기 위해서 일반적으로 catch 문장에서 사용할 변수에 대해서는 다음과 같이 try 앞에 미리 선언해 놓는다.
+
+  - ```java
+    public void checkVariable3() {
+        int [] intArray = null;
+        try {
+            intArray = new int[5];
+        }catch(Exception e){
+            System.out.println(intArray.length);
+        }
+        System.out.println("This code must run.");
+    }
+    ```
+
+    - 이렇게 변수만 미리 선언해 놓으면 컴파일도 되고 실행도 된다.
+
+- #### 무슨 일이 생겨도 반드시 실행되는 finally 
+
+  - 크게 설명할 필요가 없은 부분이다. finally는 try-catch 구문이 끝나고 나서 finally 구문이 있는데, 이 구문 안에 있는 문장은 무조건 실행된다.
+
+- #### try는 한개, catch는 여러개?
+
+  - ```java
+    public void multiCatch(){
+        int [] intArray = new int[5];
+        try{
+            System.out.println(intArray[5]);
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("ArraysIndex error!");
+        }catch(Exception e){
+            System.out.println(intArray.length);
+        }
+    }
+    ```
+
+  - 위 코드의 결과는 "ArrayIndex error!" 이다. 이 결과를 보고 "음.. 앞에 있는 catch만 처리되는구나!" 라고 생각할 수도 있다. 어떻게 보면 맞는 말인데 틀린 말이기도 하다.
+
+  - catch 블록의 순서는 매우 중요하다. catch 블록은 순서를 따진다. 다음 메소드로 예를 들어보자.
+
+  - ```java
+    public void multiCatch(){
+        int [] intArray = new int[5];
+        try{
+            System.out.println(intArray[5]);
+        }catch(Exception e){
+            System.out.println(intArray.length);
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("ArraysIndex error!");
+        }
+    }
+    ```
+
+  - 위 메소드의 출력결과는 "has already been caught" 라는 에러가 발생한다.
+
+  - 그 이유는 바로 Exception이 모든 에러의 부모클래스이기 때문이다.
+
+  - 즉, Exception 은 모든 에러를 처리하므로, Exception 다음에 catch문은 있을 필요도, 있어서도 안된다는 뜻이다.
+
+  - **만약 catch문을 사용할 때에는 Exception 클래스로 catch 하는 것을 가장 아래에 추가하도록 하자!**
+
+- #### 모든 예외의 할아버지는 java.lang.Throwable 클래스다
+
+  - Throwable 클래스에 선언되어 있고, Exception 클래스에서 오버라이딩한 메소드는 10개가 넘는다. 그 중에서 가장 많이 사용되는 몇몇 메소드를 살펴보자.
+    1. getMessage()
+       - 예외 메시지를 String 형태로 제공 받는다. 예외가 출력되었을 때 어떤 예외가 발생되었는지를 확인할 때 매우 유용하다. 즉, 개발자가 그 메시지를 활용하여 별도의 예외 메시지를 보려고 할 때 좋다.
+    2. toString()
+       - 예외 메시지를 String 형태로 제공 받는다. 그런데 getMessage() 메소드보다는 약간 더 자세하게, 예외 클래스 이름도 같이 제공한다.
+    3. printStackTrace()
+       - 가장 첫 줄에는 예외 메시지를 출력하고, 두 번째 줄 부터는 예외가 발생하게 된 메소드들의 호출 관계(스택 트레이스)를 출력해준다.
+       - 이 메소드는 개발할 떄에만 사용해야 한다. 운영할 때 사용하면 엄청나게 많은 양의 로그가 쌓이기 때문이다.
+
+- #### 예외를 던지는 throws
+
+  - ```java
+    public class ThrowSample {
+        public static void main(String[] args){
+            ThrowSample sample = new ThrowSample();
+            sample.throwException(13);
+        }
+        public void throwException(int number){
+            try {
+                if(number > 12) {
+                    throw new Exception("Number is over than 12");
+                }
+                System.out.println("Number is " + number);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    ```
+
+  - 만약 number로 13이 넘어왔다면, 정상적인 처리가 불가능할 것이다.
+
+  - 이럴 때 반드시 예외를 발생시킬 필요는 없지만, 우리는 필요에 의해서 예외를 발생시킬 수도 있다.
+
+  - 이러한 상황에서 try 블록 내에서 throw라고 명시한 후 개발자가 예외 클래스의 객체를 생성하면 된다.
+
+  - ```java
+    public void throwsException(int number) throws Exception {
+        if(number > 12){
+            throw new Exception("Number is over than 12")
+        }
+        System.out.println("number is" + number);
+    }
+    ```
+
+  - 이렇게 메소드를 선언해 놓으면, 예외가 발생했을 때 try-catch 없이도 그 메소드를 호출한 메소드로 예외 처리를 위임하는 것이기 때문에 전혀 문제가 되지 않는다.
+
+  - **단, 이렇게 throws Exception 처리를 한 메소드는, 이 메소드를 호출한 메소드에서 반드시 try-catch 처리를 해줘야 한다.**
+
+  - **위 방법이 싫다면, 그 호출한 메소드 마저도 throws Excpetion을 선언하면 된다. 하지만 이렇게 throws 한것을 다시 throws 하는 것은 그리 좋은 습관은 아니다. 위 방법을 지향하자**
+
+
+
+### Nested class
+
+- 내부 클래스 중 static Nested 클래스의 경우, 이 내부 클래스를 감싸고있는 클래스의 static 변수만 참조 가능하다.
+- 그냥 내부 클래스는 이 내부 클래스를 감싸고있는 클래스의 모든 변수를 참조할 수 있다.
+- 반대의 경우에도 접근이 가능한데, 이럴경우 그 클래스의 객체를 생성해서 접근하면 된다.
+  - private 이라도 접근이 가능하다.
+
+
+
+
+
+### 어노테이션이란 ?
+
+어노테이션은 클래스나 메소드 등의 선언시에 @를 사용하는 것을 말한다. 어노테이션은 영어로 Annotation이며, 메타데이터라고 불리기도 한다. 
+
+- 컴파일러에게 정보를 알려주거나
+- 컴파일할 때와 설치시의 작업을 지정하거나
+- 실행할 때 별도의 처리가 필요할 때
+
+사용한다.
+
+이와 같이 매우 다양한 용도로 사용할 수 있는 어노테이션은 클래스, 메소드, 변수 등 모든 요소에 선언할 수 있다.
+
+
+
+#### 미리 정해져 있는 어노테이션들은 딱 3개뿐
+
+자바 언어에는 사용하기 위해서 정해져 있는 어노테이션은 3개가 있고, 어노테이션을 선언하기 위한 메타 어노테이션으라는 것은 4개가 있다. 하지만 이 메타 어노테이션은 선언을 위해서 존재하기 때문에 일반적으로 사용 가능한 어노테이션은 다음의 3개 뿐이다.
+
+- @Override
+- @Deprecated
+- @Supress Warnings
+
+물론 Java 버전이 올라가면서 이 어노테이션의 개수도 자연스레 증가하게 될 것이다.
+
+
+
+1. @Override
+
+   해당 메소드가 부모 클래스에 있는 메소드를 Override 했다는 것을 명시적으로 선언한다.
+
+   우리가 Override를 할 때에는 부모 클래스에 있는 메소드의 이름과 매개 변수들을 동일하게 가져가는데, 만약 자식 클래스에 여러개의 메소드가 있을 때, 어떤 메소드가 Override되었는지 쉽게 알 수 없을 수도 있고 제대로 메소드를 Override했다고 생각했는데 매게 변수가 하나 빠져있을 수도 있다. 따라서 명확하게 "이 메소드는 Override 된 거니까 만약에 내가 잘못 코딩했으면 컴파일러 니가 알려줘야해!!" 라고 지정해 주는 것이라고 생각하면 된다.
+
+2. @Deprecated
+
+   미리 만들어져 있는 클래스나 메소드가 더 이상 사용되지 않는 경우가 있다. 그런것을 deprecated라고 하는데, 컴파일러에게 "얘는 더이상 사용하지 않으니까 그렇게 알고있어." 라고 말하는 것과 같다.
+
+3. @SupressWarnings 
+
+   간혹 코딩을 하다 보면 컴파일러에서 경고를 알리는 경우가 있다. 프로그램에는 문제가 없는데, 내가 잘 알아서 하는데 이러한 경고가 나타나면 웬지 마음이 불편하다. 그럴 때 컴파일러에게 "야, 일부러 이렇게 코딩한거니까 경고하지마" 라고 말하는 것 이라고 생각하면 된다.
+
+
+
+#### 직접 어노테이션을 선언하기 위한  [메타 어노테이션]
+
+메타 어노테이션 이라는 것은 어노테이션을 선언할 때 사용한다. 메타 어노테이션은 총 4개가 존재한다.
+
+- @Target
+- @Retention
+- @Documented
+- @Inherited
+
+
+
+1. @Target
+
+   어노테이션을 어떤 것에 적용할지를 선언할 때 사용한다. 
+
+   ```java
+   @Target(ElementType.METHOD)
+   ```
+
+   | 요소 타입      | 대상                             |
+   | -------------- | -------------------------------- |
+   | CONSTRUCTOR    | 생성자 선언시                    |
+   | FIELD          | enum 상수를 포함한 필드값 선언시 |
+   | LOCAL_VARIABLE | 지역 변수 선언시                 |
+   | METHOD         | 메소드 선언시                    |
+   | PACKAGE        | 패키지 선언시                    |
+   | PARAMETER      | 매개 변수 선언시                 |
+   | TYPE           | 클래스,인터페이스,enum 등 선언시 |
+
+
+
+2. @Retention
+
+   얼마나 오래 어노테이션 정보가 유지되는지를 다음과 같이 선언한다.
+
+   ```java
+   @Retention(RetentionPolicy.RUNTIME)
+   ```
+
+   @Target 처럼 괄호 안에 지정하는 적용 가능한 대상은 다음과 같다.
+
+   |         | 대상                                                         |
+   | ------- | ------------------------------------------------------------ |
+   | SOURCE  | 어노테이션 정보가 컴파일시 사라짐                            |
+   | CLASS   | 클래스 파일에 있는 어노테이션 정보가 컴파일러에 의해서 참조 가능함. 하지만, 가상 머신에서는 사라짐 |
+   | RUNTIME | 실행시 어노테이션 정보가 가상 머신에 의해서 참조 가능        |
+
+
+
+3. @Documented
+
+   해당 "어노테이션에 대한 정보다 Javadocs(API) 문서에 포함된다는 것"을 선언한다.
+
+4. @Inherited
+
+   모든 자식 클래스에서 부모 클래스의 어노테이션을 사용 가능하는 것을 선언한다.
+
+
+
+```java
+import java.lang.annotation.EletmentType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UserAnnotaion {
+    public int number();
+    public String text() default "This is first annotation";
+}
+```
+
+1. 먼저 Target을 살펴보자.  ElementType.METHOD를 넣어줌으로써 이 어노테이션은 메소드에 사용할 수 있다고 지정된 것이다.
+2. @Retention은 어노테이션 유지 정보를 지정하는데 사용한다. 소괄호 안에 RetentionPolicy.RUNTIME으로 지정하면 실행시에 이 어노테이션을 참조하게 된다.
+3. 어노테이션 이름인 UserAnnotation 앞에는 @interface가 선언되어 있다. 이걸 선언하면, @UserAnnoation으로 어노테이션 사용이 가능해진다.
+4. 어노테이션 선언안에는 number메소드와 text 메소드가 있다. number 메소드의 리턴타입은 int이며 text의 리턴타입은 String 이다. 이렇게 메소드처럼 어노테이션 안에 선언해 놓으면, 이 어노테이션을 사용할 때 해당 항목에 대한 타입으로 값을 지정 가능하다.
+5. text()를 보면 default라는 예약어를 쓴 뒤 문자열이 지정되어 있는 것을 볼 수 있다. default를 넣으면 이 어노테이션을 사용할때 기본값이 된다. 즉, 값을 지정하지 않아도 default 값으로 지정된다.
+
+
+
+```java
+public class UserAnnotationSample {
+    @UserAnnotation(number=0)
+    public static void main(String [] args){
+        UserAnnotationSample sample = new UserAnnotationSample();
+    }
+    
+    @UserAnnotation(number=1)
+    public void annotationSample1(){
+        
+    }
+    
+    @UserAnnotation(number=2, text="second")
+    public void annotationSample2() {
+        
+    }
+    
+    @UserAnnotation(number=3, text="third")
+    public void annotationSample3() {
+        
+    }
+}
+```
+
+이렇게 소괄호 안에 number와 text에 해당하는 어노테이션 값들을 지정해 주면 된다.
+
+단, text는 default를 설정했기 때문에 따로 값을 지정해주지 않아도 컴파일 하는데 전혀 문제가 없당.
+
+추가로 아래 예시처럼 Target을 두 군데 이상 설정할 수 있다.
+
+```java
+@Target({ElementType.METHOD, ElementType.TYPE})
+```
+
+
+  </div>
+</details>
+
+
+
+
+
 <details>
   <summary>git</summary>
   <div markdown="1">
