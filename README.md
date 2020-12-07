@@ -1767,7 +1767,7 @@ public class KIInformation {
 </details>
 
 <details>
-  <summary></summary>
+  <summary>커넥션 풀 이란?</summary>
   <div markdown="1">
    
    ## 커넥션 풀
