@@ -1767,7 +1767,7 @@ public class KIInformation {
 </details>
 
 <details>
-  <summary>1. 영속성 컨텍스트</summary>
+  <summary></summary>
   <div markdown="1">
    
    ## 커넥션 풀
