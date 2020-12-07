@@ -1931,6 +1931,114 @@ public class KIInformation {
 </details>
 
 
+<details>
+  <summary>Filter vs Interceptor</summary>
+  <div markdown="1">
+ 
+ ## Filter vs Interceptor 
+
+자바 웹 개발을 하다보면, 공통적으로 처리해야할 업무들이 많다.
+
+예를들어 로그인 관련(세션체크), 권한체크, XSS 방어, pc와 모바일의 분기 처리, 페이지 인코딩 변환 등등 이 있다.
+
+이러한 공통적으로 적용되는 코드들을 모든 페이지마다 하나하나 작성 해야 한다면 중복코드도 늘어나고 프로젝트 단위가 커질수록 서버에 부하를 줄 수 도있으며, 유지보수의 어려움 등 개발자의 피로도가 늘어난다.
+
+**즉, 공통 부분은 따로 빼서 관리하는게 좋다**
+
+이러한 공통업무를 프로그램 흐름의 앞,중간,뒤에 추가하여 자동으로 처리할 수 있는 기능이 3가지 있다.
+
+1. Filter
+2. Interceptor
+3. AOP
+
+
+
+### Filter
+
+말 그대로 요청과 응답을 **거른**뒤 정제하는 역할을 한다.
+
+서블릿 필터는 ``DispatcherServlet`` 이전에 실행이 되는데 필터가 동작하도록 지정된 자원의 앞단에서 요청 내용을 변경하거나, 여러가지 체크를 수행할 수 있다.
+
+또한 자원의 처리가 끝난 후 응답 내용에 대해서도 변경하는 처리를 할 수가 있다.
+
+``DispatcherServlet``란, 클라이언트가 서버에 요청을 하면 서블릿 컨테이너가 요청을 받는다. 이 때 제일 앞에서 들어오는 각종 요청을 처리하는 프론트 컨트롤러를 말한다.
+
+**[필터의 실행 순서] : 서블릿과 유사한 실행 순서를 가지고 있다.**
+
+1. init() -필터 인스턴스를 초기화 한다.
+2. doFilter() 전/후 처리를 한다.
+3. destroy() 필터 인스턴스를 종료한다.
+
+
+
+### Interceptor
+
+필터는 스프링 컨텍스트 외부에 존재하여 **스프링과 무관한 자원에 대해 동작한다.**
+
+하지만 인터셉터는 스프링의 ``DistpatcherServlet`` 이 컨트롤러를 호출하기 전/후로 끼어들기 대문에 스프링 컨텍스트 내부에서 Controller에 관한 요청과 응답에 대한 처리를 한다.
+
+또한 스프링의 모든 빈 객체에 접근할 수 있으며, 인터셉트는 여러개를 사용할 수 있다.
+
+(로그인 체크, 권한 체크,프로그램 실행시간 계산 작업 , 로그 등등)
+
+
+
+**[인터셉터 실행메서드]**
+
+preHandler()  - 컨트롤러 메서드가 실행되기 전
+
+postHandler() - 컨트롤러 메서드 실행 직후 , view 페이지가 렌더링 되기 전
+
+afterCompletion() - view페이지가 렌더링 되고 난 후
+
+
+
+여기까지 알아본 **Filter**와 **Interceptor**의 차이는, 필터는 ``웹 애플리케이션``에 등록하고, 인터셉터는 ``스프링 콘텍스트``에 등록한다는 것 이다.
+
+1. **Filter**는 ``DispatcherServlet``  실행 이전에 호출된다.
+2. **Interceptor**는 ``DisparcherServlet`` 실행 이후에 호출된다.
+
+그렇다면, 두 개를 구분하는 이유는 뭘까?
+
+대부분의 블로그에서 글을 찾아보면, 애플리케이션 전역에 영향을 주는 작업은 **Filter**로 한다는 의견이 있다. 하지만 **Filter와 Interceptor** 모두 요청에 대한 ``전후 처리`` 라고 하는 역할을 수행한다.
+
+또한 URI 기반으로 언제 실행할 것인지 조정 가능하며, 직접 request의 내용을 파악해서 원하는 조건에 부합할 때 로직을 수행할 수 있다는 점에서 차이가 없다.
+
+둘의 가장 큰 차이점은 **Interceptor**의 실행 시점에 있다. DispatcherSelvelt 실행 시점 이후인 Spring context에서 동작하기 때문에 ``@ControllerAdvice`` 에서 ``@ExceptionHandler``를 사용해서 예외를 처리할 수 있다. 예외 처리가 견고한 애플리케이션이 유지 보수 하기 좋다. 따라서 예외를 전역적으로 처리하고 싶다면 **Interceptor**를 사용하자.
+
+
+
+#### 인터셉터에서만 할 수 있는 것
+
+- AOP 흉내를 낼 수 있다. `@RequestMapping` 선언으로 요청에 대한 `HandlerMethod(@Controller의 메서드)`가 정해졌다면, handler라는 이름으로 `HandlerMethod`가 들어온다. `HandlerMethod`로 메서드 시그니처 등 추가적인 정보를 파악해서 로직 실행 여부를 판단할 수 있다.
+- View를 렌더링하기 전에 추가 작업을 할 수 있다. 예를 들어 웹 페이지가 권한에 따라 GNB(Global Navigation Bar)이 항목이 다르게 노출되어야 할 때 등의 처리를 하기 좋다.
+
+
+
+#### 필터에서만 할 수 있는 것
+
+`ServletRequest` 혹은 `ServletResponse`를 교체할 수 있다
+
+```java
+public class SomeFilter implements Filter {
+  //...
+  
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
+    chain.doFilter(new CustomServletRequest(), new CustomResponse());
+  }
+}
+```
+
+
+
+
+
+### 결론
+
+Spring으로 Web Application을 작성할 때, 한 번쯤은 Filter와 Interceptor를 선택해야 할 상황에 놓일 것이다. 전후 처리라는 점에서 그 역할은 비슷하나, 실제로 실행되는 시점이나 할 수 있는 것들이 다르다. 처리해야 할 요구 사항에 따라서 무엇을 써도 무방할 수도 있다. 하지만 차이점을 정확히 파악하고 있다면 조금이나마 더 효과적으로 개발을 할 수 있을 것이라고 믿는다.
+  </div>
+</details>
+
 
 
 
